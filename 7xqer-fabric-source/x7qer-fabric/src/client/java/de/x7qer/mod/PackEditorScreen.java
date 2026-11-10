@@ -4,7 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -140,25 +140,26 @@ public final class PackEditorScreen extends Screen {
         return value.substring(0, Math.max(1, maxChars - 1)) + "…";
     }
 
-    @Override public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (page == 0 && button == 0) {
-            int gap = 10;
-            int cardWidth = Math.min(190, Math.max(96, (width - 48 - gap * 2) / 3));
-            int cardHeight = 76;
-            int total = cardWidth * 3 + gap * 2;
-            int left = (width - total) / 2;
-            int top = Math.max(66, height / 2 - 118);
-            for (int i = 0; i < CATEGORIES.size(); i++) {
-                int x = left + (i % 3) * (cardWidth + gap);
-                int y = top + (i / 3) * (cardHeight + gap);
-                if (mouseX >= x && mouseX < x + cardWidth && mouseY >= y && mouseY < y + cardHeight) {
-                    minecraft.setScreen(new PackEditorScreen(i + 1));
-                    return true;
-                }
+    @Override public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+    if (page == 0 && event.button() == 0) {
+        int gap = 10;
+        int cardWidth = Math.min(190, Math.max(96, (width - 48 - gap * 2) / 3));
+        int cardHeight = 76;
+        int total = cardWidth * 3 + gap * 2;
+        int left = (width - total) / 2;
+        int top = Math.max(66, height / 2 - 118);
+        for (int i = 0; i < CATEGORIES.size(); i++) {
+            int x = left + (i % 3) * (cardWidth + gap);
+            int y = top + (i / 3) * (cardHeight + gap);
+            if (event.x() >= x && event.x() < x + cardWidth
+                    && event.y() >= y && event.y() < y + cardHeight) {
+                minecraft.setScreen(new PackEditorScreen(i + 1));
+                return true;
             }
         }
-        return super.mouseClicked(mouseX, mouseY, button);
     }
+    return super.mouseClicked(event, doubleClick);
+}
 
     private void choosePacks() {
         try {
