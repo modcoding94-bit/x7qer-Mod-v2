@@ -1,0 +1,32 @@
+name: Build 7xqer Mod
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Quellcode laden
+        uses: actions/checkout@v4
+
+      - name: Java 25 einrichten
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '25'
+
+      - name: Mod bauen
+        working-directory: 7xqer-fabric-source/x7qer-fabric
+        run: .\gradlew.bat build --no-daemon
+
+      - name: JAR bereitstellen
+        uses: actions/upload-artifact@v4
+        with:
+          name: 7xqer-fabric-1.21.11
+          path: 7xqer-fabric-source/x7qer-fabric/build/libs/7xqer-1.0.0.jar
+          if-no-files-found: error
