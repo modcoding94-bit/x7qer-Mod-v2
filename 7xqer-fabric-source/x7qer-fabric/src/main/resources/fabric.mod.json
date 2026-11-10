@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "x7qer",
+  "version": "${version}",
+  "name": "7xqer",
+  "description": "Importiert Resourcepacks, sortiert Texturen nach Kategorien und exportiert dein eigenes Pack.",
+  "environment": "client",
+  "entrypoints": { "client": ["de.x7qer.mod.X7QERClient"] },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
